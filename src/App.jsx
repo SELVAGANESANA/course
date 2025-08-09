@@ -10,6 +10,7 @@ import Footer from "./footer/footer";
 import './App.css';
 
 
+
 function App() {
     const [course, setcourse] = useState(() => {
         const storedCourse = localStorage.getItem("course");

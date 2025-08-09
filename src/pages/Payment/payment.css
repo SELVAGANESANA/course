@@ -7,11 +7,26 @@
 .overallpayment{
     min-height: 100vh;
     width: 100%;
-    background-color: lightcoral;
+    
     padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+.paymentcontent{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    gap: 20px;
+   
+}
+
+.paymentcontent b{
+    font-size: 28px;
 }
 
 .contentus{
@@ -50,5 +65,18 @@ form button{
 ::placeholder{
     color: black;
     font-size: 18px;
+}
+
+.razor{
+    height: 80px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.razor img{
+    height: 30px;
+    width: 30px;
+    
 }
 
