@@ -1,0 +1,9 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+:root{
+    --primary_color:#77176e;
+    --secondary_color: black;
+}
