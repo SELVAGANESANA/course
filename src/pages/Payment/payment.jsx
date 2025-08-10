@@ -1,43 +1,131 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import '../Payment/payment.css'
-
+import { useLocation } from "react-router-dom";
 import razorpay from '../../assets/razorlog.png';
 
 export default function Paymentpage() {
-
-         const [formData, setFormData] = useState({
+    const location = useLocation();
+    const { course, classstand } = location.state || {};
+    const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
         name: "",
         phone: "",
         email: "",
-        course: ""
+        course: "",
+        classstand: ""
     });
+
+    useEffect(() => {
+        if (course) { // remove classstand check
+            setFormData(prev => ({
+                ...prev,
+                course,
+                classstand: classstand || ""
+            }));
+        }
+    }, [course, classstand]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const loadRazorpay = () => {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = "https://checkout.razorpay.com/v1/checkout.js";
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+            document.body.appendChild(script);
+        });
+    };
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await fetch("https://script.google.com/macros/s/AKfycbyVdbH9pWljRio6CKhL5i9NV7cz7yiLWpmCm2HMY1VduxFL9Wz0ro9CrzvpbvSkpMYwug/exec", {
-            method: "POST",
-            mode: "no-cors", // Required for Google Script
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
-        });
+        const res = await loadRazorpay();
+        if (!res) {
+            alert("Razorpay SDK failed to load. Check your internet connection.");
+            return;
+        }
 
-        alert("Data saved to Google Sheet!");
-        setFormData({ name: "", phone: "", email: "", course: "" });
+        try {
+            // Step 1: Create Razorpay order
+            const orderRes = await fetch("http://localhost:5500/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: 499 })
+            });
+            const orderData = await orderRes.json();
+
+            if (!orderData.success) {
+                alert("Error creating order. Please try again.");
+                return;
+            }
+
+            // Step 2: Razorpay payment options
+            const options = {
+                key: "rzp_test_v3gEhWzOtCcolK", // From .env in React
+                amount: orderData.order.amount,
+                currency: "INR",
+                name: "Mock Test Ninja",
+                description: formData.course,
+                order_id: orderData.order.id,
+                handler: async function (response) {
+                    setIsLoading(true);
+                    // Step 3: Send data to backend after payment success
+                    const paymentRes = await fetch("http://localhost:5500/payment", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            ...formData,
+                            ...response
+                        })
+                    });
+
+                    const paymentData = await paymentRes.json();
+                    setIsLoading(false);
+                    if (paymentData.success) {
+                        // Redirect to result page with receipt URL
+                        window.location.href = `/payment-success-page?link=${encodeURIComponent(paymentData.receiptUrl)}`;
+                    } else {
+                        setIsLoading(false);
+                        alert("Payment verification failed. Please contact support.");
+                    }
+                },
+                prefill: {
+                    name: formData.name,
+                    email: formData.email,
+                    contact: formData.phone
+                },
+                theme: { color: "#3399cc" }
+            };
+
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+
+        } catch (err) {
+            console.error("Error:", err);
+            setIsLoading(false);
+            alert("Something went wrong. Please try again.");
+        }
     };
- 
-
-  
 
     return (
         <div className="overallpayment">
+            {isLoading && (
+                <div className="loading-overlay">
+                    <div className="spinner"></div>
+                    <p>Processing your payment, please wait...</p>
+                </div>
+            )}
             <div className="paymentcontent">
-                <h2>NEET [UG] - Revision Notes and Papers</h2>
+                <h2>{formData.course} - Revision Notes and Papers</h2>
                 <h3>Kindly <b>pay Rs. 499/-</b> to download the notes and papers.</h3>
                 <h3>Important: After payment, you will receive the notes and papers instantly in your email inbox.</h3>
                 <b>Please ensure your provided email ID is correct</b>
@@ -58,6 +146,11 @@ export default function Paymentpage() {
             <div className="contentus">
                 <h1>Pay</h1>
                 <form onSubmit={handleSubmit}>
+                    <input
+                        name="course"
+                        value={formData.course}
+                        readOnly
+                    />
                     <input
                         name="name"
                         placeholder="Name"
@@ -85,10 +178,8 @@ export default function Paymentpage() {
                         value="Rs. 499"
                         disabled
                     />
-
                     <button type="submit">Save</button>
                 </form>
-
             </div>
         </div>
     );

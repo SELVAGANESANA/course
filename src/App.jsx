@@ -6,10 +6,9 @@ import Download from "./pages/Download/Download";
 import Coursecontent from "./component/coursecontent";
 import { Classstand } from "./component/coursecontent";
 import Paymentpage from "./pages/Payment/payment";
+import PaymentSuccessPage from "./pages/Payment/PaymentSuccessPage";
 import Footer from "./footer/footer";
 import './App.css';
-
-
 
 function App() {
     const [course, setcourse] = useState(() => {
@@ -30,20 +29,19 @@ function App() {
     }, [classstand]);
     return (
         <div className="overallapp">
-        <Coursecontent.Provider value={{ course, setcourse, classstand, setclassstand }}>
-            <BrowserRouter>
-                <Routes>
-              
-                            <Route path="/" element={<Home />} />
-                            <Route path="/standard" element={<Standard />} />
-                            <Route path="/download" element={<Download />} />
-                            <Route path="/imageslide" element={<Footer />} />
-                            <Route path="/paymentpage" element={<Paymentpage/>} />
-                   
-                </Routes>
-                <Footer/>
-            </BrowserRouter>
-        </Coursecontent.Provider>
+            <Coursecontent.Provider value={{ course, setcourse, classstand, setclassstand }}>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/standard" element={<Standard />} />
+                        <Route path="/download" element={<Download />} />
+                        <Route path="/imageslide" element={<Footer />} />
+                        <Route path="/paymentpage" element={<Paymentpage />} />
+                        <Route path="/payment-success-page" element={<PaymentSuccessPage />} />
+                    </Routes>
+                    <Footer />
+                </BrowserRouter>
+            </Coursecontent.Provider>
         </div>
     )
 }
