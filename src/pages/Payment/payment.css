@@ -94,6 +94,7 @@ form button{
     
 }
 
+<<<<<<< HEAD
 @media screen and (min-width:600px) and (max-width:1050px) {
     .paymentcontent{
         width: 90%;
@@ -116,3 +117,28 @@ form button{
     }
 }
 
+=======
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(53, 53, 53, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+>>>>>>> 8050eee69f838f551a2712592c13c0abfabb5fe3

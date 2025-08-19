@@ -1,25 +1,34 @@
 import React, { useContext, useEffect } from "react";
 import '../Download/Download.css'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Coursecontent from "../../component/coursecontent";
 
 export default function Download() {
     const navigate = useNavigate();
-    const {classstand,setclassstand } = useContext(Coursecontent);
-    const { course } = useContext(Coursecontent);
-    
+    const location = useLocation();
+    const { course, classstand, setclassstand } = useContext(Coursecontent);
 
-    useEffect(()=>{
-        if(course==="NEET" || course==="JEE Main"){
-        setclassstand(" ");
-       
-    }
-    },[course.setclassstand]);
+    const { classval } = location.state || {};
 
-    const nextpage=()=>{
-        navigate("/paymentpage");
-    }
-   
+    // Protect against direct URL access to ICSE Class 11
+    useEffect(() => {
+        if (course === "ICSE" && classval === 11) {
+            navigate("/"); // Redirect back to home
+        }
+    }, [course, classval, navigate]);
+
+    useEffect(() => {
+        if (course === "NEET" || course === "JEE Main") {
+            setclassstand(""); // valid empty
+        } else if (classval) {
+            setclassstand(`Class ${classval}`);
+        }
+    }, [course, classval, setclassstand]);
+
+    const nextpage = () => {
+        navigate("/paymentpage", { state: { course, classstand } });
+    };
+
     return (
         <div className="overallsave">
 
@@ -58,12 +67,12 @@ export default function Download() {
                 <p>The revision pack consisits of all major subjects like <b> Maths, Science, Social Science, English, Hindi, Sanskrit, IT etc.</b></p>
                 <h3>We can say it with conviction that you will be able to score 90% above, after preparing from our notes.</h3>
                 <div className="savepayment">
-                   <div className="savepayment_content">
-                     <h1>Rs. <del>1999</del> 499</h1>
-                    <h2>(75% Discount Applied)</h2>
-                    <button id="downpay" onClick={()=>{nextpage()}} >Download</button>
-                    <h4>You Will Get The Download Link Instantly On Your Email</h4>
-                   </div>
+                    <div className="savepayment_content">
+                        <h1>Rs. <del>1999</del> 499</h1>
+                        <h2>(75% Discount Applied)</h2>
+                        <button id="downpay" onClick={nextpage} >Download</button>
+                        <h4>You Will Get The Download Link Instantly On Your Email</h4>
+                    </div>
                 </div>
             </div>
 

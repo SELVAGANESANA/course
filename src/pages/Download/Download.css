@@ -112,7 +112,7 @@
 }
 
 .savecontent ul li{
-    margin-left: 40px;
+    margin-left: 10px;
 }
 
 .savepayment{
@@ -248,7 +248,8 @@
     }
 
     .savepayment_content{
-        width: 95%;
+        width: 98%;
+        
     }
 
     .savepayment_content h1{

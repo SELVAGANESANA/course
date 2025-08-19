@@ -6,9 +6,12 @@ import Download from "./pages/Download/Download";
 import Coursecontent from "./component/coursecontent";
 import { Classstand } from "./component/coursecontent";
 import Paymentpage from "./pages/Payment/payment";
+import PaymentSuccessPage from "./pages/Payment/PaymentSuccessPage";
 import Footer from "./footer/footer";
 import './App.css';
+
 import ScrollToTop from "./component/scrolltop";
+
 
 
 function App() {
@@ -30,6 +33,7 @@ function App() {
     }, [classstand]);
     return (
         <div className="overallapp">
+
         <Coursecontent.Provider value={{ course, setcourse, classstand, setclassstand }}>
             <BrowserRouter>
              <ScrollToTop/>
@@ -45,6 +49,9 @@ function App() {
                 <Footer/>
             </BrowserRouter>
         </Coursecontent.Provider>
+
+            
+
         </div>
     )
 }

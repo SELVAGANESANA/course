@@ -1,142 +1,155 @@
-*{
-    padding: 0px;
-    margin: 0px;
+* {
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
-:root{
-    --primary_color:#77176e;
+
+:root {
+    --primary_color: #77176e;
     --secondary_color: black;
 }
 
-.overallhome{
+.overallhome {
     min-height: 100vh;
     width: 100%;
-    /* background-color: lightcoral; */
 }
 
-.homehanding{
+.homehanding {
     text-align: center;
     padding: 10px 20px;
     font-size: 30px;
 }
 
-.homecontent{
+.homecontent {
     width: 100%;
     padding: 20px;
     display: grid;
     justify-content: center;
     align-items: center;
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(2, 400px);
     gap: 30px;
-    padding: 20px;
 }
 
-.homebox{
+.homebox {
     height: 280px;
-    width: 400px;
-    border: 2px solid black;
+    max-width: 400px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     text-align: center;
-    border: none;
     border-radius: 10px;
     color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.homebox1{
+.homebox:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Color classes */
+.homebox1 {
     background-color: rgb(178, 145, 12);
-     /* background-color: var(--primary_color); */
 }
 
-
-.homebox3{
-    color: white;
-    background-color: teal;
-    /* background-color: var(--primary_color); */
-    
-
-}
-.homebox2{
+.homebox2 {
     background-color: maroon;
-     /* background-color: var(--primary_color); */
-    color: white;
-    
 }
 
-.homebox4{
+.homebox3 {
+    background-color: teal;
+}
+
+.homebox4 {
     background-color: forestgreen;
-     /* background-color: var(--primary_color); */
-  
 }
 
-
-.homebox p{
-    font-size: 25px;
+.homebox p {
+    font-size: 20px;
     font-weight: 600;
+    text-align: center;
 }
 
-.homeboxtitle{
+.homeboxtitle {
     display: flex;
-    width: 100%;
     align-items: center;
     justify-content: center;
-    
-    gap: 30px;
+    gap: 20px;
 }
 
-.homeboxtitle a{
-    font-size: 34px;
+.homeboxtitle h1 {
+    font-size: 28px;
     font-weight: 700;
 }
 
-.homeboxtitle span{
-    font-size: 50px;
-    font-weight: 600;
+.homeboxtitle span {
+    font-size: 40px;
 }
 
-.homebox button{
+.homebox button {
     width: 70%;
     padding: 10px;
     border: none;
-    /* background-color: orangered; */
     border-radius: 5px;
     background-color: black;
     color: white;
-    font-size: 20px;
-    box-shadow: 5px 5px 5px rgba(0,0,0,0.4);
-    /* font-weight: 600; */
+    font-size: 18px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.homebox button:hover{
+.homebox button:hover {
     background-color: white;
     color: black;
 }
 
-@media screen and (min-width:600px) and (max-width:900px) {
-   .homebox{
-    width: 300px;
-    padding: 10px;
-   } 
+/* Tablet view */
+@media (max-width: 900px) {
+    .homecontent {
+        grid-template-columns: repeat(2, 300px);
+    }
+
+    .homebox {
+        width: 300px;
+        height: 250px;
+    }
+}
+
+/* Mobile view */
+@media (max-width: 600px) {
+    .homecontent {
+        grid-template-columns: 1fr;
+    }
+
+    .homebox {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
 }
 
 @media screen and (min-width:370px) and (max-width:650px) {
-    .homebox{
+    .homebox {
         width: 350px;
         padding: 10px;
     }
-    .homecontent{
+
+    .homecontent {
         grid-template-columns: auto;
     }
 }
 
 @media screen and (min-width:300px) and (max-width:370px) {
-    .homebox{
+    .homebox {
         width: 300px;
         padding: 10px;
     }
-    .homecontent{
+
+    .homecontent {
         grid-template-columns: auto;
     }
+
 }
