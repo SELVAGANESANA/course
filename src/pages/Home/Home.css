@@ -9,7 +9,7 @@
 }
 
 .overallhome{
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     /* background-color: lightcoral; */
 }
@@ -28,6 +28,7 @@
     align-items: center;
     grid-template-columns: auto auto;
     gap: 30px;
+    padding: 20px;
 }
 
 .homebox{
@@ -38,6 +39,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    text-align: center;
     border: none;
     border-radius: 10px;
     color: white;
@@ -78,18 +80,20 @@
 .homeboxtitle{
     display: flex;
     width: 100%;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    
     gap: 30px;
 }
 
-.homeboxtitle h1{
+.homeboxtitle a{
     font-size: 34px;
     font-weight: 700;
 }
 
 .homeboxtitle span{
     font-size: 50px;
+    font-weight: 600;
 }
 
 .homebox button{
@@ -101,11 +105,38 @@
     background-color: black;
     color: white;
     font-size: 20px;
-    box-shadow: 5px 5px 5px black;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.4);
     /* font-weight: 600; */
 }
 
 .homebox button:hover{
     background-color: white;
     color: black;
+}
+
+@media screen and (min-width:600px) and (max-width:900px) {
+   .homebox{
+    width: 300px;
+    padding: 10px;
+   } 
+}
+
+@media screen and (min-width:370px) and (max-width:650px) {
+    .homebox{
+        width: 350px;
+        padding: 10px;
+    }
+    .homecontent{
+        grid-template-columns: auto;
+    }
+}
+
+@media screen and (min-width:300px) and (max-width:370px) {
+    .homebox{
+        width: 300px;
+        padding: 10px;
+    }
+    .homecontent{
+        grid-template-columns: auto;
+    }
 }

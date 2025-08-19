@@ -8,7 +8,7 @@ import { Classstand } from "./component/coursecontent";
 import Paymentpage from "./pages/Payment/payment";
 import Footer from "./footer/footer";
 import './App.css';
-
+import ScrollToTop from "./component/scrolltop";
 
 
 function App() {
@@ -32,6 +32,7 @@ function App() {
         <div className="overallapp">
         <Coursecontent.Provider value={{ course, setcourse, classstand, setclassstand }}>
             <BrowserRouter>
+             <ScrollToTop/>
                 <Routes>
               
                             <Route path="/" element={<Home />} />

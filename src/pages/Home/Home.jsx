@@ -29,7 +29,8 @@ export default function Home() {
                     <div className="homebox homebox1">
                         <div className="homeboxtitle">
                             <span><FaBookReader /> </span>
-                            <h1>CBSE</h1>
+                         
+                            <a>CBSE</a>
 
                         </div>
                         <p>For Classes 6th to 12th</p>
@@ -38,7 +39,7 @@ export default function Home() {
                     <div className="homebox homebox2">
                         <div className="homeboxtitle">
                             <span><FaBookReader /> </span>
-                            <h1>ICSE</h1>
+                            <a>ICSE</a>
 
                         </div>
                         <p>For Classes 6th to 12th</p>
@@ -47,7 +48,7 @@ export default function Home() {
                     <div className="homebox homebox3">
                         <div className="homeboxtitle">
                             <span><FaBookReader /> </span>
-                            <h1>JEE Mains</h1>
+                            <a>JEE Mains</a>
 
                         </div>
                         <p>Engineering Entrance Exam</p>
@@ -56,7 +57,7 @@ export default function Home() {
                     <div className="homebox homebox4">
                         <div className="homeboxtitle">
                             <span><FaBookReader /> </span>
-                            <h1>NEET</h1>
+                            <a>NEET</a>
 
                         </div>
                         <p>Medical Entrance Exam</p>

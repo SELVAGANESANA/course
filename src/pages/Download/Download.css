@@ -12,11 +12,12 @@
 }
 
 :root{
-    --primary_color:#77176e;
+    --primary_color:orangered;
     --secondary_color: black;
 }
 
 .savetitle{
+
     width: 100%;
     font-size: 25px;
     text-align: center;
@@ -43,13 +44,16 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    gap: 10px;
     padding: 10px;
+    border-radius: 20px;
 }
 
 .saveboxcontent h1{
     font-size: 45px;
+    font-weight: 600;
     color: var(--primary_color);
 }
 
@@ -68,8 +72,12 @@
     font-size: 20px;
     font-weight: 600;
     text-decoration: none;
-    border: 2px solid black;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+    background-color: var(--primary_color);
+    color: white;
     margin: 10px;
+    border-radius: 10px;
+
 }
 
 .savecontent{
@@ -130,9 +138,126 @@
 }
 
 .savepayment_content button{
-    width: 250px;
+    width: 280px;
     padding: 10px;
     font-size: 30px;
     font-weight: 700;
+    border: none;
+    background-color: var(--primary_color);
+    color: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
     /* letter-spacing: 1px; */
+    transition: all .3s ease;
+}
+
+.savepayment_content button:hover{
+    scale: 1.05;
+}
+
+@media screen and (min-width:400px) and (max-width:600px) {
+    .saveboxcontent{
+        width: 350px;
+        height: 440px;
+        padding: 20px;
+        gap: 5px;
+    }
+    .savetitle h1{
+        font-size: 25px;
+    }
+
+    .saveboxcontent h1{
+        font-size: 30px;
+    }
+
+    .saveboxcontent h3{
+        font-size: 23px;
+    }
+     .saveboxcontent a{
+        width: 95%;
+    }
+
+    .savecontent p{
+        font-size: 18px;
+    }
+
+    .savecontent h2{
+        font-size: 30px;
+    }
+    .savecontent ul{
+        font-size: 18px;
+    }
+    .savecontent h3{
+        font-size: 25px;
+    }
+
+    .savepayment_content{
+        width: 95%;
+    }
+
+    .savepayment_content h1{
+        font-size: 30px;
+    }
+    .savepayment_content button{
+        font-size: 20px;
+    }
+    .savepayment_content h4{
+        font-size: 20px;
+    }
+}
+
+
+@media screen and (min-width:300px) and (max-width:400px) {
+    .saveboxcontent{
+        width: 300px;
+        height: 400px;
+        padding: 20px;
+        gap: 5px;
+    }
+       .savetitle h1{
+        font-size: 22px;
+    }
+
+    .saveboxcontent h1{
+        font-size: 30px;
+    }
+     .saveboxcontent h2{
+        font-size: 30px;
+    }
+
+    .saveboxcontent h3{
+        font-size: 23px;
+    }
+
+    .saveboxcontent a{
+        width: 95%;
+    }
+
+    .savecontent p{
+        font-size: 18px;
+    }
+
+    .savecontent h2{
+        font-size: 30px;
+    }
+    .savecontent ul{
+        font-size: 18px;
+    }
+    .savecontent h3{
+        font-size: 20px;
+    }
+
+    .savepayment_content{
+        width: 95%;
+    }
+
+    .savepayment_content h1{
+        font-size: 30px;
+    }
+    .savepayment_content button{
+        font-size: 20px;
+    }
+    .savepayment_content h4{
+        font-size: 20px;
+    }
 }

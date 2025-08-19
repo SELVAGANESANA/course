@@ -1,12 +1,22 @@
 import React from "react";
-import { useState } from "react";
-import '../Payment/payment.css'
-
+import { useState,useContext } from "react";
+import '../Payment/payment.css';
+import { FaPhoneAlt } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { FaIndianRupeeSign } from "react-icons/fa6";
 import razorpay from '../../assets/razorlog.png';
+import Coursecontent, { Classstand } from "../../component/coursecontent";
 
 export default function Paymentpage() {
 
-         const [formData, setFormData] = useState({
+     const {classstand,setclassstand } = useContext(Coursecontent);
+    const { course } = useContext(Coursecontent);
+    
+    if(course==="NEET"){
+      setclassstand("[UG]");
+    }
+
+    const [formData, setFormData] = useState({
         name: "",
         phone: "",
         email: "",
@@ -30,22 +40,22 @@ export default function Paymentpage() {
         alert("Data saved to Google Sheet!");
         setFormData({ name: "", phone: "", email: "", course: "" });
     };
- 
 
-  
+
+
 
     return (
         <div className="overallpayment">
             <div className="paymentcontent">
-                <h2>NEET [UG] - Revision Notes and Papers</h2>
+                <h2>{course} {classstand} - Revision Notes and Papers</h2>
                 <h3>Kindly <b>pay Rs. 499/-</b> to download the notes and papers.</h3>
                 <h3>Important: After payment, you will receive the notes and papers instantly in your email inbox.</h3>
                 <b>Please ensure your provided email ID is correct</b>
                 <div className="contentdetails">
                     <h4> Contant us</h4>
                     <ul>
-                        <li>geniusmind.co99@gmail.com</li>
-                        <li>123456789</li>
+                        <li><MdEmail /> &nbsp;  geniusmind.co99@gmail.com</li>
+                        <li><FaPhoneAlt /> &nbsp; 9884289591</li>
                     </ul>
                     <h4>Terms & Conditions:</h4>
                     <p>You agree to share information entered on this page with Mock Test Ninja (owner of this page) and Razorpay, adhering to applicable laws.</p>
@@ -56,7 +66,7 @@ export default function Paymentpage() {
                 </div>
             </div>
             <div className="contentus">
-                <h1>Pay</h1>
+                <h1>BUY</h1>
                 <form onSubmit={handleSubmit}>
                     <input
                         name="name"
@@ -80,11 +90,11 @@ export default function Paymentpage() {
                         onChange={handleChange}
                         required
                     />
+
                     <input
                         name="course"
                         value="Rs. 499"
-                        disabled
-                    />
+                        readOnly />
 
                     <button type="submit">Save</button>
                 </form>

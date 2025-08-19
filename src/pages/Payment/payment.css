@@ -25,6 +25,15 @@
    
 }
 
+.paymentcontent ul{
+    padding-left: 5px;
+    
+}
+.paymentcontent ul li{
+    list-style-type: none;
+    padding-bottom: 10px;
+}
+
 .paymentcontent b{
     font-size: 28px;
 }
@@ -36,6 +45,11 @@
     box-shadow: 5px 5px 7px;
     text-align: center;
     padding: 20px;
+}
+
+.contentus h1{
+    /* color: var(--primary_color); */
+    font-style: italic;
 }
 
 form{
@@ -78,5 +92,27 @@ form button{
     height: 30px;
     width: 30px;
     
+}
+
+@media screen and (min-width:600px) and (max-width:1050px) {
+    .paymentcontent{
+        width: 90%;
+    }
+}
+
+@media screen and (min-width:300px) and (max-width:600px) {
+    .paymentcontent{
+        width: 97%;
+        gap: 10px;
+    }
+    .paymentcontent b {
+        font-size: 20px;
+    }
+    .paymentcontent h3{
+        font-size: 17px;
+    }
+    .contentus{
+        height: 400px;
+    }
 }
 
