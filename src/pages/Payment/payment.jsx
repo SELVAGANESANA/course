@@ -3,7 +3,6 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 
 import '../Payment/payment.css';
-import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 
@@ -167,7 +166,7 @@ export default function Paymentpage() {
                     <h4> Contant us</h4>
                     <ul>
                         <li><MdEmail /> &nbsp;  geniusmind.co99@gmail.com</li>
-                        <li><FaPhoneAlt /> &nbsp; 9884289591</li>
+                        
                     </ul>
                     <h4>Terms & Conditions:</h4>
                     <p>You agree to share information entered on this page with Mock Test Ninja (owner of this page) and Razorpay, adhering to applicable laws.</p>
