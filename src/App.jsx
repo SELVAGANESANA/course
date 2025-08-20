@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Standard from "./pages/Standard/Standard";
 import Download from "./pages/Download/Download";
@@ -35,7 +35,7 @@ function App() {
         <div className="overallapp">
 
         <Coursecontent.Provider value={{ course, setcourse, classstand, setclassstand }}>
-            <BrowserRouter>
+            <Router>
              <ScrollToTop/>
                 <Routes>
               
@@ -47,7 +47,7 @@ function App() {
                    
                 </Routes>
                 <Footer/>
-            </BrowserRouter>
+            </Router>
         </Coursecontent.Provider>
 
             
