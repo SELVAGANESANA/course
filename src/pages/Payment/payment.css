@@ -94,7 +94,6 @@ form button{
     
 }
 
-<<<<<<< HEAD
 @media screen and (min-width:600px) and (max-width:1050px) {
     .paymentcontent{
         width: 90%;
@@ -117,7 +116,6 @@ form button{
     }
 }
 
-=======
 .loading-overlay {
     position: fixed;
     inset: 0;
@@ -141,4 +139,3 @@ form button{
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
->>>>>>> 8050eee69f838f551a2712592c13c0abfabb5fe3
