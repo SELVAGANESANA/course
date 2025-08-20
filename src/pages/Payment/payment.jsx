@@ -4,7 +4,6 @@ import { useState, useEffect, useContext } from "react";
 
 import '../Payment/payment.css';
 import { MdEmail } from "react-icons/md";
-import { FaIndianRupeeSign } from "react-icons/fa6";
 
 import '../Payment/payment.css'
 import { useLocation } from "react-router-dom";
@@ -95,7 +94,7 @@ export default function Paymentpage() {
 
             // Step 2: Razorpay payment options
             const options = {
-                key: "rzp_test_v3gEhWzOtCcolK", // From .env in React
+                key: "rzp_live_R74L1zZacpVob2", // From .env in React
                 amount: orderData.order.amount,
                 currency: "INR",
                 name: "Mock Test Ninja",
