@@ -46,7 +46,17 @@ export default function Download() {
                     <h3>Self Practice Papers</h3>
                     <h2>+</h2>
                     <h3>Most Asked Exam Questions</h3>
-                    <a href="#downpay">Download Now</a>
+                    <a
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            document.getElementById("downpaying").scrollIntoView({
+                                behavior: "smooth",
+                                block: "center"   // options: "start", "center", "end", "nearest"
+                            });
+                        }}>
+                        Download Now </a>
+
                 </div>
             </div>
 
@@ -70,7 +80,7 @@ export default function Download() {
                     <div className="savepayment_content">
                         <h1>Rs. <del>1999</del> 499</h1>
                         <h2>(75% Discount Applied)</h2>
-                        <button id="downpay" onClick={nextpage} >Download</button>
+                        <button id="downpaying" onClick={nextpage} >Download</button>
                         <h4>You Will Get The Download Link Instantly On Your Email</h4>
                     </div>
                 </div>
