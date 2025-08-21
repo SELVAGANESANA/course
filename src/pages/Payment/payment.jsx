@@ -80,7 +80,7 @@ export default function Paymentpage() {
 
         try {
             // Step 1: Create Razorpay order
-            const orderRes = await fetch("https://appsail-50030453917.development.catalystappsail.in/", {
+            const orderRes = await fetch("https://appsail-50030453917.development.catalystappsail.in/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ amount: 10 })
@@ -103,7 +103,7 @@ export default function Paymentpage() {
                 handler: async function (response) {
                     setIsLoading(true);
                     // Step 3: Send data to backend after payment success
-                    const paymentRes = await fetch("https://appsail-50030453917.development.catalystappsail.in/", {
+                    const paymentRes = await fetch("https://appsail-50030453917.development.catalystappsail.in/payment", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
