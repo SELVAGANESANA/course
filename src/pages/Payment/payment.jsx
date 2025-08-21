@@ -83,7 +83,7 @@ export default function Paymentpage() {
             const orderRes = await fetch("https://appsail-50030453917.development.catalystappsail.in/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount: 499 })
+                body: JSON.stringify({ amount: 10 })
             });
             const orderData = await orderRes.json();
 
@@ -94,7 +94,7 @@ export default function Paymentpage() {
 
             // Step 2: Razorpay payment options
             const options = {
-                key: "rzp_test_dQPwhTn1zEuN4w", // From .env in React
+                key: "rzp_live_R74L1zZacpVob2", // From .env in React
                 amount: orderData.order.amount,
                 currency: "INR",
                 name: "Mock Test Ninja",
