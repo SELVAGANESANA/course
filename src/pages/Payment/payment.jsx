@@ -70,7 +70,7 @@ export default function Paymentpage() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: 49900 }) // Rs. 499 in paise
+          body: JSON.stringify({ amount: 1 }) // Rs. 499 in paise
         }
       );
 
