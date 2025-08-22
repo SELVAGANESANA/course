@@ -94,7 +94,7 @@ export default function Paymentpage() {
 
             // Step 2: Razorpay payment options
             const options = {
-                key: "rzp_live_R74L1zZacpVob2", // From .env in React
+                key: "rzp_live_gfoS1OjC8tvWjP", // From .env in React
                 amount: orderData.order.amount,
                 currency: "INR",
                 name: "Mock Test Ninja",
