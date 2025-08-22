@@ -1,37 +1,17 @@
-import React from "react";
-
-import { useState, useEffect, useContext } from "react";
-
+import React, { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import '../Payment/payment.css';
 import { MdEmail } from "react-icons/md";
 import { FaIndianRupeeSign } from "react-icons/fa6";
-import '../Payment/payment.css'
-import { useLocation } from "react-router-dom";
-
 import razorpay from '../../assets/razorlog.png';
-import Coursecontent, { Classstand } from "../../component/coursecontent";
-
+import Coursecontent from "../../component/coursecontent";
+import PaymentSuccessPage from "./PaymentSuccessPage";
 export default function Paymentpage() {
-
-
     const { classstand, setclassstand, course } = useContext(Coursecontent);
-
     const location = useLocation();
-    const { course: locationCourse, classstand: locationClassstand } = location.state || {};
-
-
-  useEffect(() => {
-  if (course === "NEET") {
-    setclassstand("[UG]");
-  }
-}, [course, setclassstand]);
-
-
-
-
+    const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
-
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
@@ -40,8 +20,14 @@ export default function Paymentpage() {
         classstand: ""
     });
 
+    // Update classstand if course is NEET
     useEffect(() => {
-        if (course) { // remove classstand check
+        if (course === "NEET") setclassstand("[UG]");
+    }, [course, setclassstand]);
+
+    // Update form data when course/classstand changes
+    useEffect(() => {
+        if (course) {
             setFormData(prev => ({
                 ...prev,
                 course,
@@ -58,20 +44,14 @@ export default function Paymentpage() {
         return new Promise((resolve) => {
             const script = document.createElement("script");
             script.src = "https://checkout.razorpay.com/v1/checkout.js";
-            script.onload = () => {
-                resolve(true);
-            };
-            script.onerror = () => {
-                resolve(false);
-            };
+            script.onload = () => resolve(true);
+            script.onerror = () => resolve(false);
             document.body.appendChild(script);
         });
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const res = await loadRazorpay();
         if (!res) {
             alert("Razorpay SDK failed to load. Check your internet connection.");
@@ -83,10 +63,9 @@ export default function Paymentpage() {
             const orderRes = await fetch("https://appsail-50030453917.development.catalystappsail.in/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount: 1 })
+                body: JSON.stringify({ amount: 49900 }) // Rs. 499 in paise
             });
             const orderData = await orderRes.json();
-
             if (!orderData.success) {
                 alert("Error creating order. Please try again.");
                 return;
@@ -94,40 +73,47 @@ export default function Paymentpage() {
 
             // Step 2: Razorpay payment options
             const options = {
-                key: "rzp_live_gfoS1OjC8tvWjP", // From .env in React
+                key: "rzp_live_R74L1zZacpVob2",
                 amount: orderData.order.amount,
                 currency: "INR",
                 name: "Mock Test Ninja",
                 description: formData.course,
                 order_id: orderData.order.id,
-                handler: async function (response) {
-                    setIsLoading(true);
-                    // Step 3: Send data to backend after payment success
-                    const paymentRes = await fetch("https://appsail-50030453917.development.catalystappsail.in/payment", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            ...formData,
-                            ...response
-                        })
-                    });
-
-                    const paymentData = await paymentRes.json();
-                    setIsLoading(false);
-                    if (paymentData.success) {
-                        // Redirect to result page with receipt URL
-                        window.location.href = `/payment-success-page?link=${encodeURIComponent(paymentData.receiptUrl)}`;
-                    } else {
-                        setIsLoading(false);
-                        alert("Payment verification failed. Please contact support.");
-                    }
-                },
                 prefill: {
                     name: formData.name,
                     email: formData.email,
                     contact: formData.phone
                 },
-                theme: { color: "#3399cc" }
+                theme: { color: "#3399cc" },
+                handler: async function (response) {
+                    // Close modal immediately
+                    if (window.Razorpay) window.Razorpay.close();
+
+                    setIsLoading(true);
+
+                    try {
+                        // Step 3: Send data to backend for verification & email
+                        const paymentRes = await fetch("https://appsail-50030453917.development.catalystappsail.in/payment", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ ...formData, ...response })
+                        });
+                        const paymentData = await paymentRes.json();
+                        setIsLoading(false);
+
+                        if (paymentData.success) {
+                            // Redirect using react-router
+                            navigate(`/payment-success-page?link=${encodeURIComponent(paymentData.receiptUrl)}`);
+
+                        } else {
+                            alert("Payment verification failed. Please contact support.");
+                        }
+                    } catch (err) {
+                        console.error("Payment verification error:", err);
+                        setIsLoading(false);
+                        alert("Something went wrong. Please try again.");
+                    }
+                }
             };
 
             const rzp = new window.Razorpay(options);
@@ -140,10 +126,6 @@ export default function Paymentpage() {
         }
     };
 
-
-
-
-
     return (
         <div className="overallpayment">
             {isLoading && (
@@ -152,69 +134,38 @@ export default function Paymentpage() {
                     <p>Processing your payment, please wait...</p>
                 </div>
             )}
+
             <div className="paymentcontent">
-
                 <h2>{course} {classstand} - Revision Notes and Papers</h2>
-
-                <h2>{formData.course} - Revision Notes and Papers</h2>
-
                 <h3>Kindly <b>pay Rs. 499/-</b> to download the notes and papers.</h3>
                 <h3>Important: After payment, you will receive the notes and papers instantly in your email inbox.</h3>
                 <b>Please ensure your provided email ID is correct</b>
+
                 <div className="contentdetails">
-                    <h4> Contant us</h4>
+                    <h4>Contact us</h4>
                     <ul>
-                        <li><MdEmail /> &nbsp;  geniusmind.co99@gmail.com</li>
-                        
+                        <li><MdEmail /> &nbsp; geniusmind.co99@gmail.com</li>
                     </ul>
                     <h4>Terms & Conditions:</h4>
                     <p>You agree to share information entered on this page with Mock Test Ninja (owner of this page) and Razorpay, adhering to applicable laws.</p>
                     <div className="razor">
-                        <img src={razorpay} alt="" />
+                        <img src={razorpay} alt="Razorpay" />
                         <b> Razorpay</b>
                     </div>
                 </div>
             </div>
+
             <div className="contentus">
                 <h1>BUY</h1>
                 <form onSubmit={handleSubmit}>
-                    <input
-                        name="course"
-                        value={formData.course}
-                        readOnly
-                    />
-                    <input
-                        name="name"
-                        placeholder="Name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        name="phone"
-                        placeholder="Phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        name="email"
-                        placeholder="Email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <input
-                        name="courseprice"
-                        value="Rs. 499"
-                        readOnly
-                    />
-                    <button type="submit">Save</button>
+                    <input name="course" value={formData.course} readOnly />
+                    <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+                    <input name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} required />
+                    <input name="email" placeholder="Email" type="email" value={formData.email} onChange={handleChange} required />
+                    <input name="courseprice" value="Rs. 499" readOnly />
+                    <button type="submit">Pay Now</button>
                 </form>
             </div>
         </div>
     );
 }
-
