@@ -82,7 +82,7 @@ export default function Paymentpage() {
 
       // Step 2: Configure Razorpay checkout
       const options = {
-        key: "rzp_live_gfoS1OjC8tvWjP", // Replace with your actual key
+        key: "rzp_live_R8cBXdDwlWWQAX", // Replace with your actual key
         amount: orderData.order.amount,
         currency: "INR",
         name: "Mock Test Ninja",
