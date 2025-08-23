@@ -44,6 +44,7 @@ function App() {
                             <Route path="/download" element={<Download />} />
                             <Route path="/imageslide" element={<Footer />} />
                             <Route path="/paymentpage" element={<Paymentpage/>} />
+                            <Route path="/payment-success-page" element={<PaymentSuccessPage />} /> 
                    
                 </Routes>
                 <Footer/>
