@@ -70,7 +70,7 @@ export default function Paymentpage() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: 1 }) // Rs. 499 in paise
+          body: JSON.stringify({ amount: 1 }) // 499 rupees (your backend multiplies to paise)
         }
       );
 
@@ -88,31 +88,10 @@ export default function Paymentpage() {
         name: "Mock Test Ninja",
         description: formData.course,
         order_id: orderData.order.id,
-        handler: async function (response) {
-          setIsLoading(true);
-
-          // Step 3: Verify payment in backend
-          const paymentRes = await fetch(
-            "https://appsail-50030453917.development.catalystappsail.in/payment",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ ...formData, ...response })
-            }
-          );
-
-          const paymentData = await paymentRes.json();
+        handler: function (response) {
+          // ✅ No fetch needed here since backend is using webhook
           setIsLoading(false);
-
-          if (paymentData.success) {
-            navigate(
-              `/payment-success-page?link=${encodeURIComponent(
-                paymentData.receiptUrl
-              )}`
-            );
-          } else {
-            alert("Payment verification failed. Please contact support.");
-          }
+          navigate("/payment-success-page");
         },
         prefill: {
           name: formData.name,
