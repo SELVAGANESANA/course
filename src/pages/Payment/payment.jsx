@@ -50,7 +50,7 @@ export default function Paymentpage() {
     try {
       // 1. Create order on backend
       const orderRes = await fetch(
-        "https://appsail-50030453917.development.catalystappsail.in/create",
+        "https://coursebackend-2tdc.onrender.com/create",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -78,7 +78,7 @@ export default function Paymentpage() {
         order_id: orderData.order.id,
         handler: async function (response) {
           // Send response to backend for verification
-          const verifyRes = await fetch("https://appsail-50030453917.development.catalystappsail.in/payment", {
+          const verifyRes = await fetch("https://coursebackend-2tdc.onrender.com/payment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
