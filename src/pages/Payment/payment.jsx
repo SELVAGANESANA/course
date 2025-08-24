@@ -76,9 +76,9 @@ export default function Paymentpage() {
         name: "Mock Test Ninja",
         description: formData.course,
         order_id: orderData.order.id,
-        handler: async function (response) {
+        handler: function (response) {
           // Send response to backend for verification
-          const verifyRes = await fetch("https://coursebackend-2tdc.onrender.com/payment", {
+          const verifyRes = fetch("https://coursebackend-2tdc.onrender.com/payment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -87,7 +87,7 @@ export default function Paymentpage() {
             }),
           });
 
-          const verifyData = await verifyRes.json();
+          const verifyData = verifyRes.json();
           setIsLoading(false);
 
           if (verifyData.success) {
