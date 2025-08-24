@@ -34,24 +34,24 @@ function App() {
     return (
         <div className="overallapp">
 
-        <Coursecontent.Provider value={{ course, setcourse, classstand, setclassstand }}>
-            <Router>
-             <ScrollToTop/>
-                <Routes>
-              
-                            <Route path="/" element={<Home />} />
-                            <Route path="/standard" element={<Standard />} />
-                            <Route path="/download" element={<Download />} />
-                            <Route path="/imageslide" element={<Footer />} />
-                            <Route path="/paymentpage" element={<Paymentpage/>} />
-                            <Route path="/payment-success-page" element={<PaymentSuccessPage />} /> 
-                   
-                </Routes>
-                <Footer/>
-            </Router>
-        </Coursecontent.Provider>
+            <Coursecontent.Provider value={{ course, setcourse, classstand, setclassstand }}>
+                <Router>
+                    <ScrollToTop />
+                    <Routes>
 
-            
+                        <Route path="/" element={<Home />} />
+                        <Route path="/standard" element={<Standard />} />
+                        <Route path="/download" element={<Download />} />
+                        <Route path="/imageslide" element={<Footer />} />
+                        <Route path="/paymentpage" element={<Paymentpage />} />
+                        <Route path="/payment-success" element={<PaymentSuccessPage />} />
+
+                    </Routes>
+                    <Footer />
+                </Router>
+            </Coursecontent.Provider>
+
+
 
         </div>
     )

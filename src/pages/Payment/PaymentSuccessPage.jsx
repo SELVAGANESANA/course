@@ -7,7 +7,7 @@ export default function PaymentSuccessPage() {
     const downloadLink = params.get("link");
 
     return (
-        <div style={{ textAlign: "center", padding: "40px" }}>
+        <div style={{ textAlign: "center", padding: "40px", height: "100vh" }}>
             <h1>🎉 Payment Successful!</h1>
             <p>Thank you for your purchase. Your NEET UG Notes & Papers are ready.</p>
 
