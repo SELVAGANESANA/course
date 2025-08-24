@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../Payment/payment.css";
 import { MdEmail } from "react-icons/md";
 import razorpay from "../../assets/razorlog.png";
@@ -7,6 +7,7 @@ import Coursecontent from "../../component/coursecontent";
 
 export default function Paymentpage() {
   const { classstand, setclassstand, course } = useContext(Coursecontent);
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +16,7 @@ export default function Paymentpage() {
     phone: "",
     email: "",
     course: "",
-    classstand: "",
+    classstand: ""
   });
 
   // Auto-update classstand for NEET
@@ -31,7 +32,7 @@ export default function Paymentpage() {
       setFormData((prev) => ({
         ...prev,
         course,
-        classstand: classstand || "",
+        classstand: classstand || ""
       }));
     }
   }, [course, classstand]);
@@ -44,11 +45,8 @@ export default function Paymentpage() {
   // Load Razorpay SDK
   const loadRazorpay = () => {
     return new Promise((resolve) => {
-      if (document.getElementById("razorpay-script")) return resolve(true);
-
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.id = "razorpay-script";
       script.onload = () => resolve(true);
       script.onerror = () => resolve(false);
       document.body.appendChild(script);
@@ -59,81 +57,69 @@ export default function Paymentpage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const sdkLoaded = await loadRazorpay();
-    if (!sdkLoaded) {
+    const res = await loadRazorpay();
+    if (!res) {
       alert("Razorpay SDK failed to load. Check your internet connection.");
       return;
     }
 
     try {
-      setIsLoading(true);
-
       // Step 1: Create order
       const orderRes = await fetch(
         "https://appsail-50030453917.development.catalystappsail.in/create",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: 1 }), // 1 INR for testing
+          body: JSON.stringify({ amount: 49900 }) // Rs. 499 in paise
         }
       );
 
       const orderData = await orderRes.json();
-      console.log("Order response:", orderData);
-
-      if (!orderData.success || !orderData.order?.id) {
+      if (!orderData.success) {
         alert("Error creating order. Please try again.");
-        setIsLoading(false);
         return;
       }
 
       // Step 2: Configure Razorpay checkout
       const options = {
-        key: "rzp_test_RLwxyzABC123", // Use your TEST key on localhost
+        key: "rzp_live_R8cBXdDwIWWQAX", // Replace with your actual key
         amount: orderData.order.amount,
         currency: "INR",
         name: "Mock Test Ninja",
         description: formData.course,
         order_id: orderData.order.id,
         handler: async function (response) {
-          console.log("Payment response:", response);
-          try {
-            const paymentRes = await fetch(
-              "https://appsail-50030453917.development.catalystappsail.in/payment",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...formData, ...response }),
-              }
-            );
+          setIsLoading(true);
 
-            const paymentData = await paymentRes.json();
-            console.log("Payment verification:", paymentData);
-            setIsLoading(false);
-
-            if (paymentData.success) {
-              navigate(
-                `/payment-success-page?link=${encodeURIComponent(
-                  paymentData.receiptUrl
-                )}`
-              );
-            } else {
-              alert(
-                "Payment verification failed. Contact support or try again."
-              );
+          // Step 3: Verify payment in backend
+          const paymentRes = await fetch(
+            "https://appsail-50030453917.development.catalystappsail.in/payment",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ ...formData, ...response })
             }
-          } catch (err) {
-            console.error("Payment verification error:", err);
-            setIsLoading(false);
-            alert("Something went wrong while verifying payment.");
+          );
+
+          const paymentData = await paymentRes.json();
+          setIsLoading(false);
+
+          if (paymentData.success) {
+            navigate(
+              `/payment-success-page?link=${encodeURIComponent(
+                paymentData.receiptUrl
+              )}`
+            );
+          } else {
+            alert("Payment verification failed. Please contact support.");
           }
         },
         prefill: {
           name: formData.name,
           email: formData.email,
-          contact: formData.phone,
+          contact: formData.phone
         },
-        theme: { color: "#3399cc" },
+        theme: { color: "#3399cc" }
       };
 
       const rzp = new window.Razorpay(options);
