@@ -55,7 +55,7 @@ export default function Paymentpage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount: 1, // Rs.499
+            amount: 49900, // Razorpay needs paise → 499 * 100
             ...formData
           }),
         }
@@ -70,30 +70,37 @@ export default function Paymentpage() {
 
       // 2. Open Razorpay checkout popup
       const options = {
-        key: "rzp_live_R8cBXdDwlWWQAX", // replace with your key
+        key: "rzp_live_R8cBXdDwlWWQAX", // replace with your live key
         amount: orderData.order.amount,
         currency: "INR",
         name: "Mock Test Ninja",
         description: formData.course,
         order_id: orderData.order.id,
-        handler: function (response) {
-          // Send response to backend for verification
-          const verifyRes = fetch("https://coursebackend-2tdc.onrender.com/payment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              ...formData,
-              ...response,
-            }),
-          });
+        handler: async function (response) {
+          try {
+            // Send response to backend for verification
+            const verifyRes = await fetch("https://coursebackend-2tdc.onrender.com/payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                ...formData,
+                ...response,
+              }),
+            });
 
-          const verifyData = verifyRes.json();
-          setIsLoading(false);
+            const verifyData = await verifyRes.json();
+            setIsLoading(false);
 
-          if (verifyData.success) {
-            navigate(`/payment-success?link=${encodeURIComponent(verifyData.receiptUrl)}`);
-          } else {
-            alert("Payment verification failed.");
+            if (verifyData.success) {
+              // ✅ Navigate to success page with download link
+              navigate(`/payment-success?link=${encodeURIComponent(verifyData.receiptUrl)}`);
+            } else {
+              alert("Payment verification failed.");
+            }
+          } catch (err) {
+            console.error("Verification error:", err);
+            alert("Error verifying payment.");
+            setIsLoading(false);
           }
         },
         prefill: {
