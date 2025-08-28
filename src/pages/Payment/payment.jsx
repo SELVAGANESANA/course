@@ -55,7 +55,7 @@ export default function Paymentpage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount: 499, // Razorpay needs paise → 499 * 100
+            amount: 10, // Razorpay needs paise → 499 * 100
             ...formData
           }),
         }
