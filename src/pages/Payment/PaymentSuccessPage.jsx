@@ -21,7 +21,7 @@ export default function PaymentSuccessPage() {
             )}
 
             <p style={{ marginTop: "20px" }}>
-                A copy of the link has also been sent to your email.
+               A copy of the link has also been sent to your email. If you don’t receive it, kindly check your Spam or Junk folder.
             </p>
         </div>
     );
