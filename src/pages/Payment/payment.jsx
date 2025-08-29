@@ -73,7 +73,7 @@ export default function Paymentpage() {
         key: "rzp_live_R8cBXdDwlWWQAX", // replace with your live key
         amount: orderData.order.amount,
         currency: "INR",
-        name: "Mock Test Ninja",
+        name: "Genius Minds",
         description: formData.course,
         order_id: orderData.order.id,
         handler: async function (response) {
@@ -154,8 +154,8 @@ export default function Paymentpage() {
           </ul>
           <h4>Terms & Conditions:</h4>
           <p>
-            You agree to share information entered on this page with Mock Test
-            Ninja (owner of this page) and Razorpay, adhering to applicable
+            You agree to share information entered on this page with
+            Genius Minds (owner of this page) and Razorpay, adhering to applicable
             laws.
           </p>
           <div className="razor">
